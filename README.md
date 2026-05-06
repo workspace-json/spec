@@ -1,5 +1,8 @@
 # agents-audit monorepo
 
+[![npm version](https://img.shields.io/npm/v/agents-audit.svg)](https://www.npmjs.com/package/agents-audit)
+[![npm downloads](https://img.shields.io/npm/dm/agents-audit.svg)](https://www.npmjs.com/package/agents-audit)
+
 This repository is the canonical source for the `agents-audit` release family.
 
 Published packages:
@@ -25,3 +28,10 @@ not long-lived npm tokens.
 
 GitHub release tags mirror npm package versions so the repository history and the
 registry history stay aligned.
+
+Release links:
+
+- [GitHub Releases](https://github.com/workspace-json/agents-audit/releases)
+- [agents-audit on npm](https://www.npmjs.com/package/agents-audit)
+- [@workspacejson/rules on npm](https://www.npmjs.com/package/@workspacejson/rules)
+- [@workspacejson/spec on npm](https://www.npmjs.com/package/@workspacejson/spec)
