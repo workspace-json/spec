@@ -1,0 +1,234 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://workspacejson.dev/schema/v1.json",
+	"title": "workspace.json",
+	"description": "workspace.json v0.1 — open specification for AI agent workspace context. All top-level sections are optional.",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"manual":    { "$ref": "#/$defs/ManualSection" },
+		"generated": { "$ref": "#/$defs/GeneratedSection" },
+		"agents":    { "$ref": "#/$defs/AgentsSection" },
+		"health":    { "$ref": "#/$defs/HealthSection" }
+	},
+	"$defs": {
+		"ManualSection": {
+			"type": "object",
+			"description": "Developer-authored context about the workspace. Consumers SHOULD treat this section as trusted human documentation.",
+			"additionalProperties": false,
+			"properties": {
+				"description": {
+					"type": "string",
+					"description": "Human-readable description of the repository. SHOULD be 1–3 sentences."
+				},
+				"techStack": {
+					"type": "array",
+					"description": "Major frameworks, runtimes, and tools used in this workspace.",
+					"items": { "type": "string" }
+				},
+				"conventions": {
+					"type": "array",
+					"description": "Actionable rules for agents working in this codebase. Each entry SHOULD be a single rule.",
+					"items": { "type": "string" }
+				},
+				"fragileFiles": {
+					"type": "array",
+					"description": "Files that require special care — high blast radius, known instability, or manual annotation.",
+					"items": { "$ref": "#/$defs/FragileFileEntry" }
+				},
+				"coChangePatterns": {
+					"type": "array",
+					"description": "Groups of files that must change together. Used to warn agents of cascading update requirements.",
+					"items": { "$ref": "#/$defs/CoChangePattern" }
+				}
+			}
+		},
+		"GeneratedSection": {
+			"type": "object",
+			"description": "Machine-generated workspace intelligence. Developers SHOULD NOT edit this section manually.",
+			"additionalProperties": false,
+			"properties": {
+				"version": {
+					"type": "string",
+					"description": "Schema version. MUST be \"1.0\" for v0.1-compliant files.",
+					"const": "1.0"
+				},
+				"generatedAt": {
+					"type": "string",
+					"description": "ISO 8601 timestamp of when this file was generated.",
+					"format": "date-time"
+				},
+				"fileIndex": {
+					"type": "object",
+					"description": "Map of relative file path → file-level intelligence. Keys MUST use forward slashes and be relative to the repository root.",
+					"additionalProperties": { "$ref": "#/$defs/FileIndexEntry" }
+				},
+				"frameworkManifest": {
+					"type": "array",
+					"description": "Detected frameworks, runtimes, and major libraries.",
+					"items": { "$ref": "#/$defs/FrameworkEntry" }
+				}
+			}
+		},
+		"AgentsSection": {
+			"type": "object",
+			"description": "References to agent context files present in the repository.",
+			"additionalProperties": false,
+			"properties": {
+				"toolAgentFiles": {
+					"type": "array",
+					"description": "Tool-specific agent instruction files (.cursorrules, .windsurfrules, copilot-instructions.md, etc.).",
+					"items": { "type": "string" }
+				},
+				"referencedAgentFiles": {
+					"type": "array",
+					"description": "Cross-tool agent files (AGENTS.md, CLAUDE.md, etc.).",
+					"items": { "type": "string" }
+				},
+				"primaryAgentFile": {
+					"type": "string",
+					"description": "The single agent file recommended for general-purpose AI agent consumers. SHOULD be \"AGENTS.md\" when present."
+				}
+			}
+		},
+		"HealthSection": {
+			"type": "object",
+			"description": "Workspace-level intelligence state. Computation methodology is implementation-defined; treat numeric fields as opaque signals within their documented ranges.",
+			"additionalProperties": true,
+			"properties": {
+				"intelligenceState": {
+					"type": "string",
+					"description": "Stage of intelligence accumulation. Consumers SHOULD surface this to developers when not STEADY_STATE.",
+					"enum": ["BOOTSTRAP", "CALIBRATING", "STEADY_STATE"]
+				},
+				"observationCount": {
+					"type": "number",
+					"description": "Number of change events observed by the generator.",
+					"minimum": 0
+				},
+				"averageFragility": {
+					"type": "number",
+					"description": "Mean fragility score across all observed files (0–1).",
+					"minimum": 0,
+					"maximum": 1
+				},
+				"fragileFileCount": {
+					"type": "number",
+					"description": "Count of files with fragility at or above the generator's threshold.",
+					"minimum": 0
+				},
+				"confidence": {
+					"type": "number",
+					"description": "Generator confidence in the health signals (0–1).",
+					"minimum": 0,
+					"maximum": 1
+				},
+				"bootstrapOverride": {
+					"type": "number",
+					"description": "When > 0, some scores are based on priors rather than observed data (0–1).",
+					"minimum": 0,
+					"maximum": 1
+				},
+				"structuralPhase": {
+					"type": "string",
+					"description": "[experimental] Estimated structural lifecycle phase of the project.",
+					"x-stability": "experimental"
+				},
+				"llmContextStaleness": {
+					"type": "number",
+					"description": "[experimental] Estimated fraction of LLM-facing context that has changed since the last agent session.",
+					"minimum": 0,
+					"x-stability": "experimental"
+				}
+			}
+		},
+		"FragileFileEntry": {
+			"type": "object",
+			"description": "A file flagged for special care.",
+			"required": ["path", "reason"],
+			"additionalProperties": false,
+			"properties": {
+				"path": {
+					"type": "string",
+					"description": "Relative path from repository root (forward slashes)."
+				},
+				"reason": {
+					"type": "string",
+					"description": "Human-readable explanation of why the file requires care."
+				}
+			}
+		},
+		"CoChangePattern": {
+			"type": "object",
+			"description": "A group of files that must be updated together.",
+			"required": ["files", "note"],
+			"additionalProperties": false,
+			"properties": {
+				"files": {
+					"type": "array",
+					"description": "Relative paths of files in the co-change group.",
+					"items": { "type": "string" },
+					"minItems": 2
+				},
+				"note": {
+					"type": "string",
+					"description": "Human-readable explanation of why these files change together."
+				}
+			}
+		},
+		"FileIndexEntry": {
+			"type": "object",
+			"description": "Intelligence data for a single observed file.",
+			"additionalProperties": true,
+			"properties": {
+				"fragility": {
+					"type": "number",
+					"description": "Composite fragility score (0–1). Higher values indicate files that change more disruptively.",
+					"minimum": 0,
+					"maximum": 1
+				},
+				"lastModified": {
+					"type": "string",
+					"description": "ISO 8601 timestamp of last modification.",
+					"format": "date-time"
+				},
+				"aiModificationCount": {
+					"type": "number",
+					"description": "Count of AI-attributed modifications.",
+					"minimum": 0
+				},
+				"humanModificationCount": {
+					"type": "number",
+					"description": "Count of human-attributed modifications.",
+					"minimum": 0
+				}
+			}
+		},
+		"FrameworkEntry": {
+			"type": "object",
+			"description": "A detected framework, runtime, or major library.",
+			"required": ["name", "version", "detected", "confidence"],
+			"additionalProperties": false,
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "Framework or library name (e.g. \"Next.js\", \"Hono\", \"pytest\")."
+				},
+				"version": {
+					"type": "string",
+					"description": "Detected version string."
+				},
+				"detected": {
+					"type": "string",
+					"description": "Source file or heuristic used for detection (e.g. \"package.json\", \"Cargo.toml\")."
+				},
+				"confidence": {
+					"type": "number",
+					"description": "Detection confidence (0–1).",
+					"minimum": 0,
+					"maximum": 1
+				}
+			}
+		}
+	}
+}

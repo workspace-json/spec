@@ -1,0 +1,30 @@
+{
+  "manual": {
+    "description": "TypeScript monorepo example",
+    "techStack": ["TypeScript", "Next.js", "pnpm"]
+  },
+  "generated": {
+    "version": "1.0",
+    "generatedAt": "2026-05-04T08:30:00.000Z",
+    "fileIndex": {
+      "packages/contracts/src/index.ts": {
+        "fragility": 0.81,
+        "lastModified": "2026-05-03T14:22:00.000Z",
+        "aiModificationCount": 6,
+        "humanModificationCount": 34
+      }
+    }
+  },
+  "agents": {
+    "toolAgentFiles": [".cursorrules"],
+    "referencedAgentFiles": ["AGENTS.md"],
+    "primaryAgentFile": "AGENTS.md"
+  },
+  "health": {
+    "intelligenceState": "STEADY_STATE",
+    "observationCount": 2841,
+    "averageFragility": 0.21,
+    "fragileFileCount": 4,
+    "confidence": 0.94
+  }
+}

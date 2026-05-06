@@ -1,0 +1,9 @@
+{
+  "generated": {
+    "version": "1.0",
+    "generatedAt": "2026-05-06T00:00:00.000Z"
+  },
+  "manual": {
+    "description": "Minimal sample workspace.json demonstrating the required generated.version field."
+  }
+}
