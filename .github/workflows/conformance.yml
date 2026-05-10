@@ -1,0 +1,29 @@
+name: Conformance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  conformance:
+    name: Validate conformance corpus
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate schema is itself valid JSON Schema
+        run: node --input-type=module -e "import { readFileSync } from 'node:fs'; import Ajv2020 from 'ajv/dist/2020.js'; import addFormats from 'ajv-formats'; const schema = JSON.parse(readFileSync('schema/v1.json', 'utf8')); const ajv = new Ajv2020({ strict: false }); addFormats(ajv); ajv.compile(schema); console.log('Schema compiled successfully');"
+
+      - name: Run conformance corpus tests
+        run: pnpm conformance

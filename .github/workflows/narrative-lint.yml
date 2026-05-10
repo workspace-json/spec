@@ -1,0 +1,41 @@
+name: Narrative Lint
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "**/*.md"
+      - "**/*.mdx"
+      - "**/*.txt"
+      - "**/*.html"
+      - "**/*.tsx"
+      - "**/*.jsx"
+      - "README*"
+  push:
+    branches: [main]
+
+jobs:
+  lint-narrative:
+    name: Check canonical narrative compliance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Make lint script executable
+        run: chmod +x .github/scripts/lint-narrative.sh
+
+      - name: Run narrative lint
+        run: ./.github/scripts/lint-narrative.sh .
+
+      - name: Comment on PR if violations found
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ Narrative lint failed. See the canonical narrative document in canon for approved vocabulary and banned terms. Check the workflow logs for specific violations.'
+            })

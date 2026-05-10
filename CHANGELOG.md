@@ -4,6 +4,9 @@ All notable changes to `@workspacejson/spec` are documented here.
 
 ## Unreleased
 
+- Reframed the canonical workspace path as `.agents/agents.workspace.json` in the public spec metadata and README.
+- Updated repository metadata to point at the standalone `workspace-json/spec` repo.
+
 ## 0.2.0 - 2026-05-08
 
 ### Added
@@ -15,9 +18,9 @@ All notable changes to `@workspacejson/spec` are documented here.
 
 ### Changed
 
-- Canonical workspace file location is now the repository root (`agents.workspace.json`).
-  The legacy path (`.agents/agents.workspace.json`) remains a valid read fallback but
-  `generate` no longer creates `.agents/`.
+- Canonical workspace file location is now `.agents/agents.workspace.json`.
+  The legacy root path (`agents.workspace.json`) remains a valid read fallback for v0.x
+  but is no longer the canonical path.
 - `version` field accepts any string value; the reference implementation writes `"1"`.
 
 ## 0.1.1 - 2026-05-06
