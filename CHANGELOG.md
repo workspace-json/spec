@@ -7,6 +7,13 @@ All notable changes to `@workspacejson/spec` are documented here.
 - Reframed the canonical workspace path as `.agents/agents.workspace.json` in the public spec metadata and README.
 - Updated repository metadata to point at the standalone `workspace-json/spec` repo.
 
+## 0.2.1 - 2026-05-10
+
+### Changed
+
+- Republished the standalone spec package so npm metadata can reflect the standalone repo
+  and canonical path updates.
+
 ## 0.2.0 - 2026-05-08
 
 ### Added
