@@ -1,13 +1,13 @@
-# @workspacejson/spec — Deprecated Repository
+# workspace.json specification
 
-> **This repository has been deprecated.**
->
-> The canonical workspace.json specification now lives in the [agents-audit monorepo](https://github.com/workspace-json/agents-audit/tree/main/packages/spec).
->
-> - **Spec source**: [packages/spec/](https://github.com/workspace-json/agents-audit/tree/main/packages/spec)
-> - **JSON Schema**: [packages/spec/schema/v1.json](https://github.com/workspace-json/agents-audit/blob/main/packages/spec/schema/v1.json)
-> - **Rendered spec**: [workspacejson.dev/spec/](https://www.workspacejson.dev/spec/)
-> - **npm package**: [@workspacejson/spec@0.3.0](https://www.npmjs.com/package/@workspacejson/spec)
-> - **Current release**: v0.3.0
+**This repository is deprecated.** The canonical workspace.json specification
+has moved to the agents-audit monorepo.
 
-This repository may be archived. All active development happens in the monorepo.
+- **Spec source:** https://github.com/workspace-json/agents-audit/tree/main/packages/spec
+- **Rendered docs:** https://workspacejson.dev/spec/
+- **Current version:** v0.3 (published 2026-05-12)
+
+The v0.1 content that previously lived here is preserved in the repository
+history but is no longer maintained. All future spec work happens in the
+agents-audit monorepo through the public RFC process described at
+https://workspacejson.dev/governance/
