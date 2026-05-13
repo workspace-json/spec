@@ -1,30 +1,13 @@
-# @workspacejson/spec
+# @workspacejson/spec — Deprecated Repository
 
-JSON Schema and TypeScript types for `.agents/agents.workspace.json`.
+> **This repository has been deprecated.**
+>
+> The canonical workspace.json specification now lives in the [agents-audit monorepo](https://github.com/workspace-json/agents-audit/tree/main/packages/spec).
+>
+> - **Spec source**: [packages/spec/](https://github.com/workspace-json/agents-audit/tree/main/packages/spec)
+> - **JSON Schema**: [packages/spec/schema/v1.json](https://github.com/workspace-json/agents-audit/blob/main/packages/spec/schema/v1.json)
+> - **Rendered spec**: [workspacejson.dev/spec/](https://www.workspacejson.dev/spec/)
+> - **npm package**: [@workspacejson/spec@0.3.0](https://www.npmjs.com/package/@workspacejson/spec)
+> - **Current release**: v0.3.0
 
-This repository is the canonical specification source for the workspace metadata format.
-
-## Install
-
-```bash
-pnpm add @workspacejson/spec
-```
-
-## API
-
-```ts
-import { workspaceJsonSchema } from '@workspacejson/spec';
-import type { WorkspaceJson } from '@workspacejson/spec';
-```
-
-## Contents
-
-- `schema/v1.json` contains the published JSON Schema
-- `src/index.ts` re-exports the schema and type surface
-- `src/types.ts` holds the TypeScript representation
-
-## Notes
-
-- The package publishes only schema, generated types, and package metadata
-- The schema is intended to be consumed by `agents-audit` and external tools that validate `.agents/agents.workspace.json`
-- Governance, security, and contribution policy live in the repo root
+This repository may be archived. All active development happens in the monorepo.
